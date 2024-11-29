@@ -21,7 +21,8 @@ class Discrete_Model:
         
     def update_table(self, reward: float, state: int):
         #iterative Bellman equation
-        self.q_table[self.last_state_action[0]][self.last_state_action[1]] = (1 - self.learning_rate)*(self.q_table[self.last_state_action[0]][self.last_state_action[1]]) + self.learning_rate*(reward + self.discount_factor * max(self.q_table[state]))
+        new_value = (1 - self.learning_rate)*(self.q_table[self.last_state_action[0]][self.last_state_action[1]]) + self.learning_rate*(reward + self.discount_factor * max(self.q_table[state]))
+        self.q_table[self.last_state_action[0]][self.last_state_action[1]] = new_value
 
     def make_action(self, state: int) -> int:
         weights = numpy.array(self.q_table) * self.randomness

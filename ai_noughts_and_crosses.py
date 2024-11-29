@@ -45,24 +45,25 @@ class AIPlayer(Player):
         self.model = model
 
     def get_turn(self, board, error):
+        #print(board.state)
         if error:
-            return POSITIONS[self.model.time_step(board.state, ERROR_REWARD)]
+            return POSITIONS[self.model.time_step(reward=ERROR_REWARD, state=board.state)]
         else:
-            return POSITIONS[self.model.time_step(board.state, TURN_REWARD)]
+            return POSITIONS[self.model.time_step(reward=TURN_REWARD, state=board.state)]
     
     def win(self):
-        self.model.update_table(0, WIN_REWARD)
+        self.model.update_table(reward=WIN_REWARD, state=0)
     
     def lose(self):
-        self.model.update_table(0, LOSE_REWARD)
+        self.model.update_table(reward=LOSE_REWARD, state=0)
     
     def draw(self):
-        self.model.update_table(0, DRAW_REWARD)
+        self.model.update_table(reward=DRAW_REWARD, state=0)
 
 end_flag = True
-WIN_REWARD = 500
-LOSE_REWARD = -10
-ERROR_REWARD = -20
+WIN_REWARD = 1
+LOSE_REWARD = -1
+ERROR_REWARD = -10
 DRAW_REWARD = 0
 TURN_REWARD = 0
 POSITIONS = []
@@ -289,6 +290,8 @@ if __name__ == "__main__":
         board = generic_game(AIPlayer(model1), HumanPlayer())
         print("Board: ")
         print("\n".join([str(x) for x in board.board]))
+        with open("onx_weights.txt", "w") as fp:
+            json.dump(model1.q_table, fp)
         
 
     
