@@ -18,7 +18,6 @@ class Discrete_Model:
         self.discount_factor = discount_factor
         self.learning_rate = learning_rate
         self.randomness = randomness
-        print(self.q_table)
         
     def update_table(self, reward: float, state: int):
         #iterative Bellman equation
@@ -26,7 +25,7 @@ class Discrete_Model:
 
     def make_action(self, state: int) -> int:
         weights = numpy.array(self.q_table) * self.randomness
-        weights = numpy.exp(weights)
+        weights = numpy.exp(weights) + 1
         return random.choices(range(len(self.q_table[state])), weights=weights[state])[0]
 
     def time_step(self, state: int, reward: float = 0) -> int:
