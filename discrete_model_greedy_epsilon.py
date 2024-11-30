@@ -18,7 +18,6 @@ class Discrete_Model:
         self.discount_factor = discount_factor
         self.learning_rate = learning_rate
         self.epsilon = epsilon
-        print(self.q_table)
         
     def update_table(self, reward: float, state: int):
         #iterative Bellman equation
@@ -29,7 +28,8 @@ class Discrete_Model:
         if p < self.epsilon:
             return random.choice(range(len(self.q_table[state])))
         else:
-            return max(range(len(self.q_table[state])), key=self.q_table.__getitem__)
+            x = max(range(len(self.q_table[state])), key=self.q_table[state].__getitem__)
+            return x
 
 
 
