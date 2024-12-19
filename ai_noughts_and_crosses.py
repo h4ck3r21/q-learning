@@ -99,8 +99,8 @@ def training_thread(model1: Model, model2: Model, N=100000):
             return"""
         print(f"epoch: {i}", end="\r")
         generic_game(AIPlayer(model1), AIPlayer(model2))
-        #generic_game(AIPlayer(model1), RandomPlayer())
-        #generic_game(RandomPlayer(), AIPlayer(model1))
+        generic_game(AIPlayer(model1), RandomPlayer())
+        generic_game(RandomPlayer(), AIPlayer(model1))
         #model2.q_table = model1.q_table
         i += 1
         """resp.append(ans)
@@ -112,6 +112,8 @@ def training_thread(model1: Model, model2: Model, N=100000):
             with open("onx_weights.txt", "w") as fp:
                 merge_weights(model1.q_table, model2.q_table)
                 json.dump(model1.q_table, fp)
+    with open("onx_weights.txt", "w") as fp:
+            json.dump(model1.q_table, fp)
 
 def generic_game(p1: Player, p2: Player):
     board = Board()
@@ -182,8 +184,6 @@ if __name__ == "__main__":
 
         print("Press Enter to End")
         input()
-        with open("onx_weights.txt", "w") as fp:
-            json.dump(model1.q_table, fp)
         print("end of training")
         end_flag = False
     else:
